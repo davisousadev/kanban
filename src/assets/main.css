@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+#app {
+  background: var(--color-secondary);
+  height: 100vh;
+}
+
+button {
+  cursor: pointer;
+}
+
+@theme {
+  --color-primary: #3ECF8E;
+  --color-primary-900: #002112;
+  --color-primary-800: #003822;
+  --color-primary-700: #005233;
+  --color-primary-600: #006C45;
+  --color-primary-500: #008858;
+  --color-primary-400: #00A56B;
+  --color-primary-300: #2BC282;
+  --color-primary-200: #51DF9C;
+  --color-primary-100: #51DF9C;
+  
+  --color-secondary: #1C1C1C;
+  --color-tertiary: #FFA072;
+  --color-neutral: #8B8B8B;
+
+  --font-sans: "Hanken Grotesk", sans-serif;
+  --font-jetbrains: "JetBrains Mono", monospace;
+}
