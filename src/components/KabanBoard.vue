@@ -23,14 +23,18 @@ const doneTasks = computed(() =>
 function onDrop(e: DragEvent, status: "todo" | "in-progress" | "done") {
   const taskId = e.dataTransfer!.getData("taskId");
   const task = tasks.value.find((t: { id: string }) => t.id === taskId);
-  if (task) task.status = status; 
+  if (task) task.status = status;
 }
 </script>
 
 <template>
   <section>
     <div class="grid grid-cols-3 gap-4 mt-4">
-      <div @dragover.prevent @drop="onDrop($event, 'todo')">
+      <div
+        class="border-2 h-fit border-dashed border-neutral-600 p-2 rounded-md"
+        @dragover.prevent
+        @drop="onDrop($event, 'todo')"
+      >
         <h2 class="text-lg font-bold mb-2 text-neutral-300">TO DO</h2>
         <div class="space-y-4">
           <KanbanCard
@@ -44,7 +48,11 @@ function onDrop(e: DragEvent, status: "todo" | "in-progress" | "done") {
           />
         </div>
       </div>
-      <div @dragover.prevent @drop="onDrop($event, 'in-progress')">
+      <div
+        class="border-2 h-fit border-dashed border-neutral-600 p-2 rounded-md"
+        @dragover.prevent
+        @drop="onDrop($event, 'in-progress')"
+      >
         <h2 class="text-lg font-bold mb-2 text-neutral-300">IN PROGRESS</h2>
         <div class="space-y-4">
           <KanbanCard
@@ -58,7 +66,11 @@ function onDrop(e: DragEvent, status: "todo" | "in-progress" | "done") {
           />
         </div>
       </div>
-      <div @dragover.prevent @drop="onDrop($event, 'done')">
+      <div
+        class="border-2 h-fit border-dashed border-neutral-600 p-2 rounded-md"
+        @dragover.prevent
+        @drop="onDrop($event, 'done')"
+      >
         <h2 class="text-lg font-bold mb-2 text-neutral-300">DONE</h2>
         <div class="space-y-4">
           <KanbanCard
