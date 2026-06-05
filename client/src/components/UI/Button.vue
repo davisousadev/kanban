@@ -1,7 +1,7 @@
 <script setup lang="ts">
     defineProps<{
         label: string;
-        theme?: 'primary' | 'secondary' | 'tertiary' | 'neutral';
+        theme?: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'danger';
     }>();
 
     function getThemes(theme: string | undefined) {
@@ -14,6 +14,8 @@
                 return 'bg-tertiary text-white';
             case 'neutral':
                 return 'bg-neutral text-white';
+            case 'danger':
+                return 'bg-red-500 text-white';
             default:
                 return '';
         }

@@ -1,14 +1,35 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-// @ts-ignore: Unable to find declaration file for module '../types/task'
-import { Task } from "../types/task";
+import { computed, onMounted } from "vue";
 import KanbanCard from "./KanbanCard.vue";
+import {useKanban} from "@/composables/useKanban";
 
-const tasks = ref<Task[]>(
-  localStorage.getItem("tasks")
-    ? JSON.parse(localStorage.getItem("tasks") as string)
-    : [],
-);
+const { tasks, getTasks } = useKanban();
+
+async function updateTaskStatus(taskId:number, status: "todo" | "in-progress" | "done"){
+  try {
+    const response = await fetch(`http://localhost:3000/kanban/${taskId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status }),
+    })
+    if (!response.ok) {
+      throw new Error("Failed to update task status");
+    }
+    const updatedTask = await response.json();
+    const index = tasks.value.findIndex((t) => t.id === taskId);
+    if (index !== -1) {
+      tasks.value[index] = updatedTask;
+    }
+  } catch (error) {
+    console.error("Error updating task status:", error);
+  }
+}
+
+onMounted(() => {
+  getTasks();
+});
 
 const todoTasks = computed(() =>
   tasks.value.filter((t: { status: string }) => t.status === "todo"),
@@ -22,8 +43,7 @@ const doneTasks = computed(() =>
 
 function onDrop(e: DragEvent, status: "todo" | "in-progress" | "done") {
   const taskId = e.dataTransfer!.getData("taskId");
-  const task = tasks.value.find((t: { id: string }) => t.id === taskId);
-  if (task) task.status = status;
+  updateTaskStatus(Number(taskId), status);
 }
 </script>
 

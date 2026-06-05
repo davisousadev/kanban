@@ -1,0 +1,1 @@
+ALTER TABLE "kanbans" ADD COLUMN "status" text DEFAULT 'todo' NOT NULL;

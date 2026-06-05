@@ -1,7 +1,6 @@
 <script setup lang="ts">
     import Button from '../UI/Button.vue';
-    // @ts-ignore: Unable to find declaration file for module '../../stores/modal'
-    import { useModalStore } from "../../stores/modal";
+    import { useModalStore } from "@/stores/modal";
     const modalStore = useModalStore();
 </script>
 
