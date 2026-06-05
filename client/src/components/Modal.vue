@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-// @ts-ignore: Unable to find declaration file for module '../../stores/modal'
-import { useModalStore } from "../stores/modal";
+import { useModalStore } from "@/stores/modal";
 import Button from "./UI/Button.vue";
 
 const modalStore = useModalStore();
@@ -10,20 +9,33 @@ const title = ref("");
 const description = ref("");
 const profile = ref("");
 
-const addTask = () => {
-  const newTask = {
-    id: crypto.randomUUID(),
-    title: title.value,
-    description: description.value,
-    profile: profile.value,
-    status: "todo",
-  };
-  const existingTasks = localStorage.getItem("tasks");
-  const tasks = existingTasks ? JSON.parse(existingTasks) : [];
-  tasks.push(newTask);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  modalStore.close();
-};
+async function postTask() {
+  try {
+    const newTask = {
+      title: title.value,
+      description: description.value,
+      profile: profile.value,
+    };
+
+    console.log("Posting task:", newTask);
+
+    await fetch("http://localhost:3000/kanban", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTask),
+    });
+    title.value = "";
+    description.value = "";
+    profile.value = "";
+  } catch (error) {
+    console.error("Error posting task:", error);
+  } finally {
+    modalStore.close();
+  }
+}
+
 </script>
 
 <template>
@@ -33,7 +45,7 @@ const addTask = () => {
   >
     <div class="bg-neutral-800 p-6 rounded-lg w-96">
       <h2 class="text-xl font-bold mb-4 text-white">Add New Task</h2>
-      <form @submit.prevent="addTask">
+      <form @submit.prevent="postTask()">
         <div class="mb-4">
           <label class="block text-neutral-300 mb-2" for="title">Title</label>
           <input

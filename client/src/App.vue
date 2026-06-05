@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import Header from './components/layout/Header.vue';
-import Modal from './components/Modal.vue';
-import KanbanBoard from './components/KabanBoard.vue';
+import Header from "./components/layout/Header.vue";
+import Modal from "./components/Modal.vue";
+import KanbanBoard from "./components/KabanBoard.vue";
 </script>
 
-<template >
+<template>
   <div class="container mx-auto p-5">
     <Header />
     <main>

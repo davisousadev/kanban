@@ -1,6 +1,6 @@
-// types/task.ts
+
 export interface Task {
-  id: string
+  id: number
   title: string
   description: string
   profile: string

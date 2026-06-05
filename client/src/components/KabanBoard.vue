@@ -1,14 +1,24 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-// @ts-ignore: Unable to find declaration file for module '../types/task'
-import { Task } from "../types/task";
+import { computed, onMounted, ref } from "vue";
+import type { Task } from "../types/task.ts";
 import KanbanCard from "./KanbanCard.vue";
 
-const tasks = ref<Task[]>(
-  localStorage.getItem("tasks")
-    ? JSON.parse(localStorage.getItem("tasks") as string)
-    : [],
-);
+const tasks = ref<Task[]>([]);
+
+async function getTasks(){
+  try {
+    const response = await fetch("http://localhost:3000/kanban");
+    const data = await response.json();
+    tasks.value = data;
+    console.log("Fetched tasks:", data);
+  } catch (error) {
+    console.error("Error fetching tasks:", error);
+  }
+}
+
+onMounted(() => {
+  getTasks();
+});
 
 const todoTasks = computed(() =>
   tasks.value.filter((t: { status: string }) => t.status === "todo"),
@@ -22,7 +32,7 @@ const doneTasks = computed(() =>
 
 function onDrop(e: DragEvent, status: "todo" | "in-progress" | "done") {
   const taskId = e.dataTransfer!.getData("taskId");
-  const task = tasks.value.find((t: { id: string }) => t.id === taskId);
+  const task = tasks.value.find((t) => t.id.toString() === taskId);
   if (task) task.status = status; 
 }
 </script>

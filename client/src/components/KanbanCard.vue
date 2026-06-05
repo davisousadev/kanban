@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import Badge from "./UI/Badge.vue";
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  profile: string;
-  status: "todo" | "in-progress" | "done";
-}
+import type { Task } from "../types/task.ts";
 const props = defineProps<Task>();
 
 function onDragStart(event: DragEvent) {
-  event.dataTransfer?.setData("taskId", props.id || "");
+  event.dataTransfer?.setData("taskId", props.id.toString());
 }
 </script>
 
