@@ -1,11 +1,11 @@
 services:
   db:
     image: postgres:15
-    container_name: kanban-db
+    container_name: kanban-db-teste
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: kanban
+      POSTGRES_DB: kanban-teste
     ports:
       - "5432:5432"
     volumes:

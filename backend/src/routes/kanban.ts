@@ -1,6 +1,6 @@
 import {FastifyInstance} from 'fastify';
 import {db} from '@/db';
-import {kanbans} from '@/db/schema';
+import {kanbans} from '@/db/schema/kanaban';
 import {eq} from "drizzle-orm";
 
 export async function kanbanRoutes(app: FastifyInstance) {
