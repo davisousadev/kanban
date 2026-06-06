@@ -1,9 +1,8 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 
 #app {
-  background: var(--color-secondary);
   height: 100vh;
 }
 
@@ -12,21 +11,45 @@ button {
 }
 
 @theme {
-  --color-primary: #3ECF8E;
+  --color-primary: #3ecf8e;
   --color-primary-900: #002112;
   --color-primary-800: #003822;
   --color-primary-700: #005233;
-  --color-primary-600: #006C45;
+  --color-primary-600: #006c45;
   --color-primary-500: #008858;
-  --color-primary-400: #00A56B;
-  --color-primary-300: #2BC282;
-  --color-primary-200: #51DF9C;
-  --color-primary-100: #51DF9C;
-  
-  --color-secondary: #1C1C1C;
-  --color-tertiary: #FFA072;
-  --color-neutral: #8B8B8B;
+  --color-primary-400: #00a56b;
+  --color-primary-300: #2bc282;
+  --color-primary-200: #51df9c;
+  --color-primary-100: #51df9c;
+
+  --color-primary-hover: #006c45;
+  --color-secondary-hover: #2a2a2a;
+  --color-tertiary-hover: #ffb680;
+  --color-neutral-hover: #afafaf;
+  --color-red-500-hover: #c00;
+
+  --color-secondary: #1c1c1c;
+  --color-tertiary: #ffa072;
+  --color-neutral: #8b8b8b;
 
   --font-sans: "Hanken Grotesk", sans-serif;
   --font-jetbrains: "JetBrains Mono", monospace;
+}
+
+.bg-gradient-primary-secondary {
+  background: linear-gradient(
+    to bottom,
+    var(--color-secondary),
+    var(--color-primary-800)
+  );
+}
+
+/* Classe alternativa com altura mínima para preencher a viewport */
+.bg-gradient-primary-secondary-full {
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    var(--color-secondary),
+    var(--color-primary-800)
+  );
 }
