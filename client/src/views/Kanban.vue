@@ -5,7 +5,11 @@ import KanbanBoard from "@/components/KanbanBoard.vue";
 </script>
 
 <template>
-    <Header />
-    <KanbanBoard />
-    <Modal />
+    <section class="bg-secondary w-full h-screen inline-block">
+        <div class="container my-8 mx-auto">
+            <Header />
+            <KanbanBoard />
+            <Modal />
+        </div>
+    </section>
 </template>
