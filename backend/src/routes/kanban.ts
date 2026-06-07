@@ -8,23 +8,27 @@ export async function kanbanRoutes(app: FastifyInstance) {
     await req.jwtVerify();
   });
 
-  app.get("/kanban", async () => {
-    return db.select().from(kanbans);
+  app.get("/kanban", async (req) => {
+    const { id: userId } = req.user as { id: number };
+    return db.query.kanbans.findMany({
+      where: eq(kanbans.userId, userId),
+    })
   });
 
   app.post("/kanban", async (req, res) => {
-    const { title, description, profile } = req.body as {
+    const { title, description, profile, userId } = req.body as {
       title: string;
       description?: string;
       profile: string;
+      userId: number;
     };
-    if (!title || !profile) {
-      res.status(400).send({ error: "Title and profile are required" });
+    if (!title || !profile || !userId) {
+      res.status(400).send({ error: "Title, profile, and userId are required" });
       return;
     }
     const [newKanban] = await db
       .insert(kanbans)
-      .values({ title, description, profile })
+      .values({ title, description, profile, userId })
       .returning();
     res.status(201).send(newKanban);
   });

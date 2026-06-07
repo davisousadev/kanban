@@ -1,5 +1,5 @@
 {
-  "id": "4ce1fa2e-68d0-4b2d-9d44-ba043f12149d",
+  "id": "3087796c-5894-465a-90ce-28e4416782a1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -38,10 +38,30 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'todo'"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "kanbans_user_id_users_id_fk": {
+          "name": "kanbans_user_id_users_id_fk",
+          "tableFrom": "kanbans",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -56,6 +76,12 @@
           "name": "id",
           "type": "serial",
           "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
           "notNull": true
         },
         "email": {

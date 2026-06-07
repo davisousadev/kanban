@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useModalStore } from "@/stores/modal";
 import Button from "./UI/Button.vue";
 import { useKanban } from "@/composables/useKanban";
+import { jwtDecode } from 'jwt-decode'
 
 const { getTasks } = useKanban();
 const modalStore = useModalStore();
@@ -11,12 +12,15 @@ const title = ref("");
 const description = ref("");
 const profile = ref("");
 
+const payload = jwtDecode(localStorage.getItem("token") || "") as { id: number };
+
 async function postTask() {
   try {
     const newTask = {
       title: title.value,
       description: description.value,
       profile: profile.value,
+      userId: payload.id,
     };
 
     if (
@@ -36,13 +40,14 @@ async function postTask() {
       },
       body: JSON.stringify(newTask),
     });
-    title.value = "";
-    description.value = "";
-    profile.value = "";
+    
     await getTasks();
   } catch (error) {
     console.error("Error posting task:", error); 
   } finally {
+    title.value = "";
+    description.value = "";
+    profile.value = "";
     modalStore.close();
   }
 }

@@ -9,13 +9,14 @@ const toast = useToast();
 
 const email = ref("");
 const password = ref("");
+const name = ref("");
 const loading = ref(false);
 
 const router = useRouter();
 
 async function handleSubmit() {
   loading.value = true;
-  if (!email.value.trim() || !password.value.trim()) {
+  if (!email.value.trim() || !password.value.trim() || !name.value.trim()) {
     toast.error("Please fill in all fields");
     loading.value = false;
     return;
@@ -35,6 +36,7 @@ async function handleSubmit() {
       body: JSON.stringify({
         email: email.value,
         password: password.value,
+        name: name.value,
       }),
     });
     const {token} = await response.json();
@@ -57,6 +59,13 @@ async function handleSubmit() {
 
 <template>
   <form class="space-y-4 my-4" @submit.prevent="handleSubmit()">
+    <Input
+      v-model="name"
+      id="name"
+      label="Name"
+      placeholder="Your name"
+      required
+    />
     <Input
       v-model="email"
       id="email"

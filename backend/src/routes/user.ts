@@ -13,17 +13,19 @@ export async function userRoutes(app: FastifyInstance) {
         body: z.object({
           email: z.email(),
           password: z.string().min(6),
+          name: z.string().min(2).max(100),
         }),
       },
     },
     async (req, res) => {
-      const { email, password } = req.body as {
+      const { email, password, name } = req.body as {
         email: string;
         password: string;
+        name: string;
       };
 
-      if (!email || !password) {
-        res.status(400).send({ message: "Email and password are required" });
+      if (!email || !password || !name) {
+        res.status(400).send({ message: "Email, password, and name are required" });
         return;
       }
 
@@ -39,7 +41,6 @@ export async function userRoutes(app: FastifyInstance) {
         .from(users)
         .where(eq(users.email, email))
         .limit(1);
-
       if (existingUser) {
         res.status(400).send({ message: "Email already in use" });
         return;
@@ -48,10 +49,10 @@ export async function userRoutes(app: FastifyInstance) {
       const hashedPassword = await bcrypt.hash(password, 10);
       const [newUser] = await db
         .insert(users)
-        .values({ email, password: hashedPassword })
+        .values({ email, password: hashedPassword, name })
         .returning();
 
-      const token = await res.jwtSign({ id: newUser.id, email: newUser.email });
+      const token = await res.jwtSign({ id: newUser.id, email: newUser.email, name: newUser.name });
       return { token };
     },
   );
@@ -94,7 +95,7 @@ export async function userRoutes(app: FastifyInstance) {
         return;
       }
 
-      const token = await res.jwtSign({id: user.id, email: user.email});
+      const token = await res.jwtSign({id: user.id, email: user.email, name: user.name});
       return { token };
     },
   );
