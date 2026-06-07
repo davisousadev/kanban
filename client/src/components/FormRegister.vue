@@ -27,7 +27,6 @@ async function handleSubmit() {
     return;
   }
   try {
-    console.log("Submitting form with email:", email.value, "and password:", password.value);
     const response = await fetch("http://localhost:3000/register", {
       method: "POST",
       headers: {

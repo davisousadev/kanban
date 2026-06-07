@@ -23,14 +23,14 @@ export async function userRoutes(app: FastifyInstance) {
       };
 
       if (!email || !password) {
-        res.status(400).send({ error: "Email and password are required" });
+        res.status(400).send({ message: "Email and password are required" });
         return;
       }
 
       if (password.length < 6) {
         res
           .status(400)
-          .send({ error: "Password must be at least 6 characters long" });
+          .send({ message: "Password must be at least 6 characters long" });
         return;
       }
 
@@ -41,7 +41,7 @@ export async function userRoutes(app: FastifyInstance) {
         .limit(1);
 
       if (existingUser) {
-        res.status(400).send({ error: "Email already in use" });
+        res.status(400).send({ message: "Email already in use" });
         return;
       }
 
@@ -73,7 +73,7 @@ export async function userRoutes(app: FastifyInstance) {
       };
 
       if (!email || !password) {
-        res.status(400).send({ error: "Email and password are required" });
+        res.status(400).send({ message: "Email and password are required" });
         return;
       }
 
@@ -84,13 +84,13 @@ export async function userRoutes(app: FastifyInstance) {
         .limit(1);
 
       if (!user) {
-        res.status(400).send({ error: "Invalid email or password" });
+        res.status(400).send({ message: "Invalid email or password" });
         return;
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        res.status(400).send({ error: "Invalid email or password" });
+        res.status(400).send({ message: "Invalid email or password" });
         return;
       }
 
