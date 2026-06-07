@@ -6,7 +6,11 @@ const tasks = ref<Task[]>([]);
 export function useKanban() {
   async function getTasks() {
     try {
-      const response = await fetch("http://localhost:3000/kanban");
+      const response = await fetch("http://localhost:3000/kanban", {
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
+          },
+      });
       const data = await response.json();
       tasks.value = data;
     } catch (error) {

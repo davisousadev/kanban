@@ -32,6 +32,7 @@ async function postTask() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
       },
       body: JSON.stringify(newTask),
     });
@@ -40,7 +41,7 @@ async function postTask() {
     profile.value = "";
     await getTasks();
   } catch (error) {
-    console.error("Error posting task:", error);
+    console.error("Error posting task:", error); 
   } finally {
     modalStore.close();
   }

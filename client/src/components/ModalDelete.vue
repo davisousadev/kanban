@@ -11,6 +11,9 @@ const { getTasks } = useKanban();
 async function deleteTask() {
   try {
     const response = await fetch(`http://localhost:3000/kanban/${props.id}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token") || ""}`,
+      },
       method: "DELETE",
     });
     if (!response.ok) {
