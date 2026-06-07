@@ -2,6 +2,7 @@
 defineProps<{
   label: string;
   theme?: "primary" | "secondary" | "tertiary" | "neutral" | "danger";
+  loading?: boolean;
 }>();
 
 function getThemes(theme: string | undefined) {
@@ -27,7 +28,9 @@ function getThemes(theme: string | undefined) {
     :class="getThemes(theme)"
     class="px-4 py-2 font-jetbrains font-bold transition-colors duration-200"
     v-bind="$attrs"
+    :disabled="loading"
   >
-    {{ label }}
+    <span v-if="loading" class="loader">...</span>
+    <span v-else>{{ label }}</span>
   </button>
 </template>
