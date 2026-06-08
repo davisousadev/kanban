@@ -5,13 +5,14 @@ import cors from "@fastify/cors";
 import {
   serializerCompiler,
   validatorCompiler,
+  ZodTypeProvider,
 } from "@fastify/type-provider-zod";
 import jwt from "@fastify/jwt";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-export const app = Fastify({ logger: true });
+export const app = Fastify({ logger: true }).withTypeProvider<ZodTypeProvider>();
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);

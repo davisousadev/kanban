@@ -1,40 +1,28 @@
 import { db } from "@/db";
 import { users } from "@/db/schema/user";
 import { FastifyInstance } from "fastify";
-import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import {
+  LoginUserInput,
+  loginUserSchema,
+  RegisterUserInput,
+  registerUserSchema,
+} from "@/schemas/user.schemas";
 
 export async function userRoutes(app: FastifyInstance) {
+  app.withTypeProvider<ZodTypeProvider>();
+
   app.post(
     "/register",
     {
       schema: {
-        body: z.object({
-          email: z.email(),
-          password: z.string().min(6),
-          name: z.string().min(2).max(100),
-        }),
+        body: registerUserSchema,
       },
     },
     async (req, res) => {
-      const { email, password, name } = req.body as {
-        email: string;
-        password: string;
-        name: string;
-      };
-
-      if (!email || !password || !name) {
-        res.status(400).send({ message: "Email, password, and name are required" });
-        return;
-      }
-
-      if (password.length < 6) {
-        res
-          .status(400)
-          .send({ message: "Password must be at least 6 characters long" });
-        return;
-      }
+      const { email, password, name } = req.body as RegisterUserInput;
 
       const [existingUser] = await db
         .select()
@@ -52,8 +40,12 @@ export async function userRoutes(app: FastifyInstance) {
         .values({ email, password: hashedPassword, name })
         .returning();
 
-      const token = await res.jwtSign({ id: newUser.id, email: newUser.email, name: newUser.name });
-      return { token };
+      const token = await res.jwtSign({
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+      });
+      return res.status(201).send({ token });
     },
   );
 
@@ -61,22 +53,11 @@ export async function userRoutes(app: FastifyInstance) {
     "/login",
     {
       schema: {
-        body: z.object({
-          email: z.email(),
-          password: z.string().min(6),
-        }),
+        body: loginUserSchema,
       },
     },
     async (req, res) => {
-      const { email, password } = req.body as {
-        email: string;
-        password: string;
-      };
-
-      if (!email || !password) {
-        res.status(400).send({ message: "Email and password are required" });
-        return;
-      }
+      const { email, password } = req.body as LoginUserInput;
 
       const [user] = await db
         .select()
@@ -95,8 +76,12 @@ export async function userRoutes(app: FastifyInstance) {
         return;
       }
 
-      const token = await res.jwtSign({id: user.id, email: user.email, name: user.name});
-      return { token };
+      const token = await res.jwtSign({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      });
+      return res.status(200).send({ token });
     },
   );
 }
