@@ -4,9 +4,12 @@ import type { Task } from "../types/task.ts";
 import Button from "./UI/Button.vue";
 import { ref } from "vue";
 import ModalDelete from "./ModalDelete.vue";
+import { jwtDecode } from "jwt-decode";
 const props = defineProps<Task>();
 
 const modalDeleteOpen = ref(false);
+
+const payload = jwtDecode(localStorage.getItem("token") || "") as { email: string };
 
 function onDragStart(event: DragEvent) {
   event.dataTransfer?.setData("taskId", props.id.toString());
@@ -31,7 +34,8 @@ function onDragStart(event: DragEvent) {
     >
       {{ props.title }}
     </h2>
-    <p class="text-neutral-400">{{ props.description }}</p>
+    <p class="text-neutral-400 border-b border-neutral-600 mb-2">{{ props.description }}</p>
+    <p class="text-neutral-300 font-semibold">{{payload.email}}</p>
     <div v-if="props.status === 'in-progress'" class="flex justify-end my-2">
       <span class="font-jetbrains text-primary-200">ACTIVE</span>
     </div>

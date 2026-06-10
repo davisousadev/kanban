@@ -22,11 +22,6 @@ export async function kanbanRoutes(app: FastifyInstance) {
 
   app.get(
     "/kanban",
-    {
-      schema: {
-        querystring: getKanbansByUserIdSchema,
-      },
-    },
     async (req) => {
       const { id: userId } = req.user as { id: number };
       return db.query.kanbans.findMany({
